@@ -2,14 +2,23 @@
   "name": "multi-tenant-ecommerce",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate:types": "payload generate:types"
+  },
+  "overrides": {
+    "undici": "6.19.2"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "@payloadcms/db-mongodb": "^3.76.0",
+    "@payloadcms/next": "^3.76.0",
+    "@payloadcms/payload-cloud": "^3.76.0",
+    "@payloadcms/richtext-lexical": "^3.76.0",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-alert-dialog": "^1.1.15",
     "@radix-ui/react-aspect-ratio": "^1.1.8",
@@ -41,10 +50,12 @@
     "cmdk": "^1.1.1",
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.6.0",
+    "graphql": "^16.12.0",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.487.0",
-    "next": "^15.4.11",
+    "next": "15.4.11",
     "next-themes": "^0.4.6",
+    "payload": "^3.76.0",
     "react": "^19.0.0",
     "react-day-picker": "^9.13.0",
     "react-dom": "^19.0.0",
@@ -64,7 +75,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "^15.4.11",
+    "eslint-config-next": "15.4.11",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
