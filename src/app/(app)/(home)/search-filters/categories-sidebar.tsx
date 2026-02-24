@@ -4,33 +4,36 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { CustomCategory } from "./types";
 import { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
-import { ca } from "date-fns/locale";
 import { useRouter } from "next/navigation";
+import { useTRPC } from "@/trpc/client";
+import { useQuery } from "@tanstack/react-query";
+import { CategoriesGetManyOutput } from "@/modules/categories/types";
 
 interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  data: CustomCategory[];
 }
-export const CategoriesSidebar = ({ open, onOpenChange, data }: Props) => {
-  const [parentCategory, setParentCategory] = useState<CustomCategory[] | null>(
-    null,
-  );
-  const [selectedCategory, setSelectedCategory] =
-    useState<CustomCategory | null>(null);
+export const CategoriesSidebar = ({ open, onOpenChange }: Props) => {
+  const trpc = useTRPC();
+  const { data } = useQuery(trpc.categories.getMany.queryOptions());
+
+  const [parentCategory, setParentCategory] =
+    useState<CategoriesGetManyOutput | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<
+    CategoriesGetManyOutput[1] | null
+  >(null);
   const router = useRouter();
 
   // If we have parent categories show those otherwise show root categories.
   // This allows us to drill down into subcategories on mobile.
   const currentCategories = parentCategory ?? data ?? [];
 
-  const handleCategoryClick = (category: CustomCategory) => {
+  const handleCategoryClick = (category: CategoriesGetManyOutput[1]) => {
     if (category.subcategories && category.subcategories.length > 0) {
-      setParentCategory(category.subcategories as CustomCategory[]);
+      setParentCategory(category.subcategories as CategoriesGetManyOutput);
       setSelectedCategory(category);
     } else {
       // leaf category, no subcategory
@@ -54,12 +57,12 @@ export const CategoriesSidebar = ({ open, onOpenChange, data }: Props) => {
     setParentCategory(null);
     onOpenChange(open);
   };
-const handleBackClick = () => {
-    if(parentCategory) {
-        setParentCategory(null)
-        setSelectedCategory(null)
+  const handleBackClick = () => {
+    if (parentCategory) {
+      setParentCategory(null);
+      setSelectedCategory(null);
     }
-}
+  };
   const backgroundColor = selectedCategory?.color || "white";
 
   return (
@@ -81,7 +84,7 @@ const handleBackClick = () => {
               <ChevronLeftIcon className="size-4 mr-2"></ChevronLeftIcon>Back
             </button>
           )}
-          {currentCategories.map((category: CustomCategory) => (
+          {currentCategories.map((category: CategoriesGetManyOutput[1]) => (
             <button
               key={category.slug}
               onClick={() => handleCategoryClick(category)}
