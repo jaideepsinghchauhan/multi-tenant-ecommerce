@@ -16,7 +16,7 @@
     "undici": "6.19.2"
   },
   "dependencies": {
-    "@hookform/resolvers": "^5.2.2",
+    "@hookform/resolvers": "^3.9.1",
     "@payloadcms/db-mongodb": "^3.76.0",
     "@payloadcms/next": "^3.76.0",
     "@payloadcms/payload-cloud": "^3.76.0",
