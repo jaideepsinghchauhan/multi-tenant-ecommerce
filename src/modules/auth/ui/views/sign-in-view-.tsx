@@ -39,7 +39,6 @@ const SignInView = () => {
         toast.error(error.message);
       },
       onSuccess: () => {
-        toast.success("Account created successfully");
         router.push("/");
       },
     }),
