@@ -1,15 +1,21 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import { ListFilterIcon, SearchIcon } from "lucide-react";
+import { BookmarkCheckIcon, ListFilterIcon, SearchIcon } from "lucide-react";
 import { CategoriesSidebar } from "./categories-sidebar";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useTRPC } from "@/trpc/client";
+import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 
 interface Props {
   disabled?: boolean;
 }
 
 export const SearchInput = ({ disabled }: Props) => {
+  const trpc = useTRPC();
+  const session = useQuery(trpc.auth.session.queryOptions());
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
@@ -23,7 +29,6 @@ export const SearchInput = ({ disabled }: Props) => {
           disabled={disabled}
         />
       </div>
-      {/* To open the categories sidebar on mobile. This is separate from the category dropdowns */}
       <Button
         variant="elevated"
         className="size-12 shrink-0 flex lg:hidden"
@@ -31,6 +36,19 @@ export const SearchInput = ({ disabled }: Props) => {
       >
         <ListFilterIcon />
       </Button>
+
+      {session?.data?.user && (
+        <Button
+          asChild
+          variant="elevated"
+        >
+          <Link href="/library" >
+            <BookmarkCheckIcon />
+            Library
+          </Link>
+        </Button>
+      )}
+
     </div>
   );
 };
