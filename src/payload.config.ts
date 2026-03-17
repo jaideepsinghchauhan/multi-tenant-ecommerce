@@ -1,4 +1,5 @@
 // storage-adapter-import-placeholder
+import dns from 'dns'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
@@ -13,6 +14,12 @@ import { Categories } from './collections/Categories.ts'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
+
+// TODO: Remove in PRODUCTION Only to prevent DNS issues in development
+// (avoid stale/invalid local resolver such as 127.0.0.1)
+if (!process.env.PAYLOAD_INSTALLATION_DONT_FORCE_DNS) {
+  dns.setServers(['8.8.8.8', '8.8.4.4'])
+}
 
 export default buildConfig({
   admin: {
