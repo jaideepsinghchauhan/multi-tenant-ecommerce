@@ -1,9 +1,12 @@
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import Footer from "./footer";
-import Navbar from "./navbar";
-import { SearchFilters, SearchFiltersSkeleton } from "./search-filters";
-import { getQueryClient, trpc } from "@/trpc/server";
 import { Suspense } from "react";
+
+import { getQueryClient, trpc } from "@/trpc/server";
+
+import Footer from "@/modules/home/ui/components/footer";
+import Navbar from "@/modules/home/ui/components/navbar";
+import { SearchFilters, SearchFiltersSkeleton } from "@/modules/home/ui/components/search-filters";
+
 
 interface Props {
   children: React.ReactNode;
